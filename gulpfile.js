@@ -2,6 +2,7 @@ const { watch, series, parallel } = require('gulp')
 const browserSync = require('browser-sync').create()
 
 // Configuration
+const serverEnable = true
 const path = require('./config/path.js')
 const settings = require('./config/settings.js')
 
@@ -37,7 +38,7 @@ exports.img = img
 exports.font = font
 
 const build = series(clear, parallel(html, scss, js, img, font))
-const dev = series(build, parallel(watcher, server))
+const dev = series(build, parallel(watcher, serverEnable ? server : () => {}))
 
 // Build
 exports.default = settings.isProduction ? build : dev
